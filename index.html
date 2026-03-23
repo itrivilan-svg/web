@@ -663,7 +663,7 @@
             <div class="contact-inner">
                 <div class="contact-info reveal slide-left">
                     <h2 class="section-h2" style="text-align:left">Get in Touch with Us</h2>
-                    <p class="body-muted">Whether you have questions or are ready to discuss your business, we're here to help. Reach out today.</p>
+                    <p class="body-muted" style="text-align:left">Whether you have questions or are ready to discuss your business, we're here to help. Reach out today.</p>
                     <div class="contact-details">
                         <div class="contact-item">
                             <span class="contact-icon">✉</span>
@@ -681,6 +681,15 @@
                 </div>
 
                 <form class="contact-form reveal slide-right" id="contactForm">
+                    <!-- Web3Forms: free email service — sends to info@next2.com -->
+                    <!-- SETUP: Go to https://web3forms.com, enter info@next2.com, get your access_key and replace below -->
+                    <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+                    <input type="hidden" name="subject" value="New Contact Form Submission — Rivilan Investments">
+                    <input type="hidden" name="from_name" value="Rivilan Website">
+                    <input type="hidden" name="redirect" value="false">
+                    <!-- Honeypot spam protection -->
+                    <input type="checkbox" name="botcheck" style="display:none;">
+
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" placeholder="Jane Smith" required>
@@ -693,8 +702,73 @@
                         <label for="message">Message</label>
                         <textarea id="message" name="message" placeholder="Hi, I am reaching out for..." rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%">Submit</button>
+
+                    <!-- Status messages -->
+                    <div id="form-status" style="display:none; padding:.75rem 1rem; border-radius:8px; font-size:.875rem; text-align:center;"></div>
+
+                    <button type="submit" id="submitBtn" class="btn btn-primary" style="width:100%">
+                        <span id="btn-text">Submit</span>
+                        <span id="btn-loader" style="display:none;">Sending…</span>
+                    </button>
                 </form>
+                <script>
+                    (function () {
+                        const form = document.getElementById('contactForm');
+                        if (!form) return;
+
+                        form.addEventListener('submit', async function (e) {
+                            e.preventDefault();
+
+                            const btn = document.getElementById('submitBtn');
+                            const btnText = document.getElementById('btn-text');
+                            const btnLoad = document.getElementById('btn-loader');
+                            const status = document.getElementById('form-status');
+
+                            btn.disabled = true;
+                            btnText.style.display = 'none';
+                            btnLoad.style.display = 'inline';
+                            status.style.display = 'none';
+
+                            const formData = new FormData(form);
+                            const object = Object.fromEntries(formData);
+
+                            // ✅ Inject your Web3Forms access key here
+                            object.access_key = '2120c1bf-76e8-4bd3-87be-3e52274f5eb7';
+
+                            const json = JSON.stringify(object);
+
+                            try {
+                                const res = await fetch('https://api.web3forms.com/submit', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                                    body: json
+                                });
+                                const data = await res.json();
+
+                                if (data.success) {
+                                    status.style.display = 'block';
+                                    status.style.background = 'rgba(103,255,1,0.12)';
+                                    status.style.border = '1px solid rgba(103,255,1,0.4)';
+                                    status.style.color = '#67ff01';
+                                    status.textContent = '✓ Message sent! We\'ll get back to you soon.';
+                                    form.reset();
+                                } else {
+                                    throw new Error(data.message || 'Submission failed');
+                                }
+                            } catch (err) {
+                                status.style.display = 'block';
+                                status.style.background = 'rgba(255,51,51,0.12)';
+                                status.style.border = '1px solid rgba(255,51,51,0.4)';
+                                status.style.color = '#ff6b6b';
+                                status.textContent = '✗ Something went wrong. Please try again or email us directly.';
+                            } finally {
+                                btn.disabled = false;
+                                btnText.style.display = 'inline';
+                                btnLoad.style.display = 'none';
+                            }
+                        });
+                    })();
+                </script>
             </div>
             <div class="contact-bg-glow"></div>
         </div>
