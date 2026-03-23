@@ -121,16 +121,16 @@ processCards.forEach((card, i) => {
 
 /* ── SERVICES ── */
 sr("#services .section-header", { opacity: 0, y: 35, duration: 0.7 });
-srGroup(".bento-card", { opacity: 0, y: 45, duration: 0.75 }, ".services-bento", "top 85%", 0.08);
+srGroup(".bento-card", { opacity: 0, y: 0, duration: 0.75 }, ".services-bento", "top 85%", 0.08);
 
 /* ── BENEFITS ── */
 sr("#benefits .section-header", { opacity: 0, y: 35, duration: 0.7 });
-srGroup(".benefit-card", { opacity: 0, y: 50, duration: 0.8 }, ".benefits-grid", "top 85%", 0.1);
+srGroup(".benefit-card", { opacity: 0, y: 0, duration: 0.8 }, ".benefits-grid", "top 85%", 0.1);
 
 /* ── PLANS ── */
 sr("#plans .section-header", { opacity: 0, y: 35, duration: 0.7 });
 sr(".plans-toggle", { opacity: 0, y: 15, duration: 0.5 }, ".plans-toggle", "top 90%");
-srGroup(".plan-card", { opacity: 0, y: 55, scale: 0.97, duration: 0.8 }, ".plans-grid", "top 85%", 0.1);
+srGroup(".plan-card", { opacity: 0, y: 0, scale: 0.97, duration: 0.8 }, ".plans-grid", "top 85%", 0.2);
 
 /* ── TESTIMONIALS ── */
 sr("#testimonials .section-header", { opacity: 0, y: 35, duration: 0.7 });
